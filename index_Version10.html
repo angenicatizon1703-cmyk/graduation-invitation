@@ -1,0 +1,960 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Graduation Celebration Invitation</title>
+  <meta name="description" content="You are cordially invited to celebrate this special milestone." />
+  <meta name="theme-color" content="#0b0d14" />
+
+  <style>
+    :root{
+      --bg0:#050712;
+      --bg1:#070a16;
+      --bg2:#070f20;
+
+      --text:#eef2ff;
+      --muted: rgba(199,210,254,.80);
+      --muted2: rgba(199,210,254,.55);
+
+      --blue:#1e6bff;
+
+      --card: rgba(6, 10, 18, .62);
+      --stroke: rgba(255,255,255,.10);
+
+      --shadow: 0 26px 90px rgba(0,0,0,.62);
+
+      --radius: 26px;
+
+      --serif: ui-serif, Georgia, "Times New Roman", Times, serif;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans";
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      color:var(--text);
+      font-family:var(--sans);
+      background:
+        radial-gradient(1200px 800px at 10% 10%, rgba(30,107,255,.08), transparent 58%),
+        radial-gradient(1000px 700px at 90% 10%, rgba(30,107,255,.06), transparent 58%),
+        radial-gradient(900px 700px at 50% 90%, rgba(30,107,255,.05), transparent 60%),
+        linear-gradient(180deg, var(--bg0), var(--bg1) 35%, var(--bg2));
+      overflow-x:hidden;
+    }
+
+    /* canvases */
+    #stars, #confetti{
+      position:fixed; inset:0;
+      width:100%; height:100%;
+      pointer-events:none;
+      display:block;
+    }
+    #stars{ z-index:0; }
+    #confetti{ z-index:1; }
+
+    /* layout */
+    .wrap{
+      position:relative;
+      z-index:2;
+      width:min(1100px, 100%);
+      margin:0 auto;
+      padding: 30px 16px 90px;
+    }
+
+    /* hero */
+    .hero{
+      min-height: calc(100vh - 120px);
+      display:grid;
+      place-items:center;
+      text-align:center;
+      padding: 26px 0 10px;
+    }
+
+    .capIcon{
+      width: 112px;
+      height: 112px;
+      margin: 0 auto 20px;
+      color: var(--blue);
+      filter: drop-shadow(0 22px 34px rgba(0,0,0,.55));
+      animation: float 3.2s ease-in-out infinite;
+    }
+    @keyframes float{
+      0%,100%{ transform: translateY(0); }
+      50%{ transform: translateY(-12px); }
+    }
+
+    .heroTitle{
+      margin: 0 0 10px;
+      font-family: var(--serif);
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      font-size: clamp(44px, 6vw, 86px);
+      color: rgba(255,255,255,.95);
+      text-shadow: 0 18px 50px rgba(0,0,0,.60);
+    }
+
+    .heroSub{
+      margin: 0 0 26px;
+      color: rgba(199,210,254,.72);
+      font-family: var(--serif);
+      font-size: clamp(16px, 2.0vw, 22px);
+      font-weight: 500;
+    }
+
+    .openBtn{
+      position:relative;
+      border-radius: 999px;
+      padding: 15px 32px;
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: .01em;
+      color: rgba(30,107,255,.95);
+      background: rgba(0,0,0,.15);
+      border: 2px solid rgba(30,107,255,.78);
+      cursor:pointer;
+      transition: transform .15s ease, box-shadow .2s ease, background .2s ease, color .2s ease;
+      box-shadow: 0 0 0 0 rgba(30,107,255,0), 0 0 40px rgba(30,107,255,.18);
+      overflow:hidden;
+    }
+    .openBtn:hover{
+      transform: translateY(-1px);
+      background: rgba(30,107,255,.92);
+      color: #071022;
+      box-shadow: 0 0 0 12px rgba(30,107,255,.16), 0 0 64px rgba(30,107,255,.24);
+    }
+    .openBtn::after{
+      content:"";
+      position:absolute;
+      inset:-60%;
+      background: linear-gradient(110deg, transparent 35%, rgba(255,255,255,.25) 45%, transparent 55%);
+      transform: translateX(-65%);
+      animation: shimmer 2.6s linear infinite;
+      opacity:.85;
+      pointer-events:none;
+    }
+    @keyframes shimmer{ to{ transform: translateX(65%);} }
+
+    /* content reveal */
+    .hidden{ display:none; }
+    .fadeIn{ animation: fadeUp .65s cubic-bezier(.2,.9,.2,1) both; }
+    @keyframes fadeUp{
+      from{ opacity:0; transform: translateY(10px); }
+      to{ opacity:1; transform: translateY(0); }
+    }
+
+    /* invitation header */
+    .capSmall{
+      width: 34px; height: 34px;
+      margin: 34px auto 10px;
+      display:block;
+      color: rgba(30,107,255,.95);
+      opacity:.95;
+      filter: drop-shadow(0 18px 24px rgba(0,0,0,.45));
+    }
+
+    .kicker{
+      text-align:center;
+      color: rgba(199,210,254,.55);
+      letter-spacing: .28em;
+      text-transform: uppercase;
+      font-size: 12px;
+      font-weight: 700;
+      margin-top: 6px;
+    }
+
+    .bigTitle{
+      text-align:center;
+      margin: 22px 0 8px;
+      font-family: var(--serif);
+      letter-spacing: -0.02em;
+      line-height: .94;
+    }
+    .bigTitle .top{
+      display:block;
+      font-weight: 900;
+      font-size: clamp(46px, 6vw, 92px);
+      color: rgba(30,107,255,.95);
+      text-shadow: 0 22px 60px rgba(0,0,0,.6);
+    }
+    .bigTitle .bottom{
+      display:block;
+      margin-top: 12px;
+      font-weight: 900;
+      font-size: clamp(54px, 7vw, 108px);
+      color: rgba(255,255,255,.95);
+      text-shadow: 0 22px 60px rgba(0,0,0,.6);
+    }
+
+    .divider{
+      width: 140px;
+      height: 1px;
+      margin: 18px auto 0;
+      background: linear-gradient(90deg, transparent, rgba(30,107,255,.75), transparent);
+      opacity:.9;
+    }
+
+    /* honoring */
+    .honoring{
+      text-align:center;
+      margin-top: 28px;
+      padding: 16px 0 10px;
+    }
+    .honoring .label{
+      letter-spacing:.28em;
+      text-transform:uppercase;
+      font-size: 12px;
+      color: rgba(199,210,254,.58);
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .honoring .name{
+      font-family: var(--serif);
+      font-weight: 900;
+      letter-spacing:-.02em;
+      font-size: clamp(42px, 6vw, 82px);
+      margin: 0 0 10px;
+      color: rgba(255,255,255,.96);
+    }
+    .honoring .degree{
+      font-family: var(--serif);
+      color: rgba(199,210,254,.66);
+      font-size: clamp(16px, 2vw, 22px);
+      margin: 0 0 6px;
+    }
+    .honoring .school{
+      color: rgba(30,107,255,.95);
+      font-family: var(--serif);
+      font-size: clamp(14px, 1.7vw, 18px);
+      margin: 0;
+    }
+
+    /* section titles */
+    .sectionTitle{
+      margin: 46px 0 18px;
+      text-align:center;
+      font-family: var(--serif);
+      font-weight: 900;
+      letter-spacing:-.02em;
+      font-size: clamp(30px, 3.4vw, 46px);
+      color: rgba(255,255,255,.95);
+    }
+
+    /* countdown */
+    .countdown{
+      display:grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 6px;
+    }
+    @media (max-width: 720px){
+      .countdown{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    .tile{
+      border-radius: 18px;
+      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      border: 1px solid rgba(255,255,255,.10);
+      box-shadow: 0 20px 60px rgba(0,0,0,.35);
+      padding: 22px 14px;
+      text-align:center;
+      position:relative;
+      overflow:hidden;
+    }
+    .tile::before{
+      content:"";
+      position:absolute; inset:-1px;
+      background: radial-gradient(450px 140px at 50% 0%, rgba(30,107,255,.12), transparent 60%);
+      opacity: .9;
+      pointer-events:none;
+    }
+    .tile .num{
+      position:relative;
+      font-family: var(--serif);
+      font-weight: 900;
+      font-size: clamp(44px, 4.8vw, 74px);
+      color: rgba(30,107,255,.95);
+      line-height: 1;
+      text-shadow: 0 22px 48px rgba(0,0,0,.55);
+    }
+    .tile .lbl{
+      position:relative;
+      margin-top: 10px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      font-size: 12px;
+      color: rgba(199,210,254,.62);
+      font-weight: 700;
+    }
+
+    /* event cards grid */
+    .cards{
+      display:grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      margin: 18px auto 0;
+      max-width: 980px;
+    }
+    @media (max-width: 860px){
+      .cards{ grid-template-columns: 1fr; }
+    }
+
+    /* ===== Card (with mouse-follow glow) ===== */
+    .card{
+      border-radius: 22px;
+      background: var(--card);
+      border: 1px solid rgba(255,255,255,.10);
+      box-shadow: 0 26px 90px rgba(0,0,0,.45);
+      padding: 22px 22px;
+      display:flex;
+      gap: 16px;
+      align-items:flex-start;
+      position:relative;
+      overflow:hidden;
+
+      --mx: 50%;
+      --my: 50%;
+
+      transition: border-color .18s ease, transform .18s ease, box-shadow .18s ease;
+    }
+    .card::before{
+      content:"";
+      position:absolute; inset:-2px;
+      background:
+        radial-gradient(520px 160px at 0% 0%, rgba(30,107,255,.12), transparent 60%),
+        radial-gradient(520px 160px at 100% 0%, rgba(30,107,255,.08), transparent 60%);
+      opacity:.9;
+      pointer-events:none;
+      filter: blur(2px);
+    }
+    .card::after{
+      content:"";
+      position:absolute; inset:0;
+      pointer-events:none;
+      opacity:0;
+      transition: opacity .18s ease;
+      background:
+        radial-gradient(240px 180px at var(--mx) var(--my),
+          rgba(30,107,255,.24),
+          rgba(30,107,255,.10) 35%,
+          transparent 70%);
+    }
+    .card:hover{
+      border-color: rgba(30,107,255,.55);
+      transform: translateY(-1px);
+      box-shadow:
+        0 26px 90px rgba(0,0,0,.45),
+        0 0 0 1px rgba(30,107,255,.25),
+        0 0 42px rgba(30,107,255,.12);
+    }
+    .card:hover::after{ opacity:1; }
+
+    .iconWrap{
+      width: 52px; height: 52px;
+      border-radius: 999px;
+      background: rgba(30,107,255,.10);
+      border: 1px solid rgba(30,107,255,.22);
+      display:grid;
+      place-items:center;
+      flex: 0 0 auto;
+      position:relative;
+      box-shadow: 0 16px 40px rgba(0,0,0,.35);
+    }
+    .iconWrap svg{
+      width: 24px; height: 24px;
+      color: rgba(30,107,255,.95);
+    }
+
+    .meta{ position:relative; flex: 1; }
+    .meta .k{
+      letter-spacing:.24em;
+      text-transform:uppercase;
+      font-size: 12px;
+      color: rgba(199,210,254,.55);
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .meta .v{
+      font-family: var(--serif);
+      font-weight: 900;
+      letter-spacing:-.01em;
+      font-size: clamp(22px, 2.5vw, 34px);
+      margin: 0 0 6px;
+      color: rgba(255,255,255,.95);
+    }
+    .meta .s{
+      margin:0;
+      color: rgba(199,210,254,.62);
+      font-size: 16px;
+      line-height: 1.4;
+    }
+
+    /* buttons */
+    .ctaRow{
+      max-width: 980px;
+      margin: 18px auto 0;
+      display:flex;
+      flex-wrap:wrap;
+      gap: 10px;
+      justify-content:center;
+      padding: 0 6px;
+    }
+    a.btn, button.btn{
+      appearance:none;
+      border-radius: 999px;
+      padding: 12px 18px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.05);
+      color: rgba(255,255,255,.92);
+      font-weight: 850;
+      letter-spacing:.01em;
+      cursor:pointer;
+      text-decoration:none;
+      transition: transform .15s ease, box-shadow .2s ease, background .2s ease;
+    }
+    a.btn:hover, button.btn:hover{
+      transform: translateY(-1px);
+      background: rgba(255,255,255,.08);
+      box-shadow: 0 0 0 10px rgba(30,107,255,.12);
+    }
+    .btn.primary{
+      border-color: rgba(30,107,255,.55);
+      background: rgba(30,107,255,.12);
+      color: rgba(30,107,255,.98);
+    }
+    .btn.primary:hover{
+      background: rgba(30,107,255,.92);
+      color: #071022;
+      box-shadow: 0 0 0 12px rgba(30,107,255,.16), 0 0 70px rgba(30,107,255,.22);
+    }
+
+    /* RSVP block */
+    .rsvpCard{
+      max-width: 980px;
+      margin: 26px auto 0;
+      padding: 0 6px;
+    }
+    .rsvpInner{
+      display:block;
+      text-align:center;
+      padding: 34px 22px;
+    }
+    .rsvpTitle{
+      font-family: var(--serif);
+      font-weight: 900;
+      letter-spacing:-.02em;
+      font-size: clamp(30px, 3.6vw, 44px);
+      margin: 0;
+      color: rgba(255,255,255,.95);
+    }
+    .rsvpLead{
+      margin: 12px 0 0;
+      color: rgba(199,210,254,.70);
+      font-family: var(--serif);
+      font-size: 18px;
+    }
+    .rsvpBody{
+      margin: 22px auto 0;
+      max-width: 720px;
+      color: rgba(199,210,254,.62);
+      font-size: 16px;
+      line-height: 1.55;
+    }
+    .rsvpBtns{
+      margin-top: 18px;
+      display:flex;
+      gap: 12px;
+      justify-content:center;
+      flex-wrap:wrap;
+    }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce){
+      .capIcon{ animation:none !important; }
+      .openBtn::after{ animation:none !important; }
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="stars" aria-hidden="true"></canvas>
+  <canvas id="confetti" aria-hidden="true"></canvas>
+
+  <main class="wrap">
+    <!-- HERO -->
+    <section class="hero" id="hero">
+      <svg class="capIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M12 3L1 9l11 6 9-4.91V17"></path>
+        <path d="M5 13.18v4c0 1.1 3.13 2 7 2s7-.9 7-2v-4"></path>
+        <path d="M21 9v8"></path>
+        <circle cx="21" cy="18" r="1" fill="currentColor"></circle>
+      </svg>
+
+      <h1 class="heroTitle">You’re Invited</h1>
+      <p class="heroSub">A celebration awaits...</p>
+
+      <button class="openBtn" id="openBtn" type="button">Open Invitation</button>
+    </section>
+
+    <!-- INVITE CONTENT -->
+    <section id="invite" class="hidden" aria-label="Invitation content">
+      <svg class="capSmall" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M12 3L1 9l11 6 9-4.91V17"></path>
+        <path d="M5 13.18v4c0 1.1 3.13 2 7 2s7-.9 7-2v-4"></path>
+        <path d="M21 9v8"></path>
+        <circle cx="21" cy="18" r="1" fill="currentColor"></circle>
+      </svg>
+
+      <div class="kicker" id="kickerText">YOU ARE CORDIALLY INVITED TO</div>
+
+      <h2 class="bigTitle">
+        <span class="top" id="titleTop">Graduation</span>
+        <span class="bottom" id="titleBottom">Celebration</span>
+      </h2>
+
+      <div class="divider"></div>
+
+      <div class="honoring">
+        <div class="label">HONORING</div>
+        <h3 class="name" id="honoreeName">Alexandra Johnson</h3>
+        <p class="degree" id="degreeText">Bachelor of Science in Computer Science</p>
+        <p class="school" id="schoolText">Stanford University • Class of 2026</p>
+      </div>
+
+      <h4 class="sectionTitle">Countdown to Celebration</h4>
+      <div class="countdown" aria-label="Countdown timer">
+        <div class="tile"><div class="num" id="dd">--</div><div class="lbl">Days</div></div>
+        <div class="tile"><div class="num" id="hh">--</div><div class="lbl">Hours</div></div>
+        <div class="tile"><div class="num" id="mm">--</div><div class="lbl">Minutes</div></div>
+        <div class="tile"><div class="num" id="ss">--</div><div class="lbl">Seconds</div></div>
+      </div>
+
+      <h4 class="sectionTitle" style="margin-top:60px;">Event Details</h4>
+      <div class="cards" id="eventCards">
+        <div class="card">
+          <div class="iconWrap" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4" width="18" height="18" rx="2"></rect>
+              <path d="M16 2v4M8 2v4M3 10h18"></path>
+            </svg>
+          </div>
+          <div class="meta">
+            <div class="k">Date</div>
+            <div class="v" id="dateValue">Saturday, June 15th, 2026</div>
+            <p class="s" id="dateSub">Mark your calendar</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="iconWrap" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="9"></circle>
+              <path d="M12 7v6l4 2"></path>
+            </svg>
+          </div>
+          <div class="meta">
+            <div class="k">Time</div>
+            <div class="v" id="timeValue">4:00 PM - 9:00 PM</div>
+            <p class="s" id="timeSub">Dinner & dancing to follow</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="iconWrap" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 21s7-4.4 7-11a7 7 0 0 0-14 0c0 6.6 7 11 7 11Z"></path>
+              <circle cx="12" cy="10" r="2.5"></circle>
+            </svg>
+          </div>
+          <div class="meta">
+            <div class="k">Venue</div>
+            <div class="v" id="venueValue">The Grand Pavilion</div>
+            <p class="s" id="venueSub">1234 Celebration Drive, Palo Alto, CA</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="iconWrap" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 3v7a3 3 0 0 0 6 0V3"></path>
+              <path d="M7 3v7"></path>
+              <path d="M14 3v7a3 3 0 0 0 6 0V3"></path>
+              <path d="M17 3v18"></path>
+            </svg>
+          </div>
+          <div class="meta">
+            <div class="k">Attire</div>
+            <div class="v" id="attireValue">Semi-Formal</div>
+            <p class="s" id="attireSub">Dinner & dancing to follow</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- RSVP (below event details like your screenshot) -->
+      <div class="rsvpCard">
+        <div class="card rsvpInner">
+          <h5 class="rsvpTitle">RSVP</h5>
+          <p class="rsvpLead" id="rsvpDeadlineText">Please respond by June 1st, 2026</p>
+
+          <p class="rsvpBody">
+            Let us know if you can make it to the celebration! Click below to fill out the RSVP form.
+          </p>
+
+          <div class="rsvpBtns">
+            <a class="btn primary" id="rsvpSameTabBtn" href="#" rel="noreferrer">Open RSVP Form</a>
+            <a class="btn" id="rsvpNewTabBtn" href="#" target="_blank" rel="noreferrer">Open in New Tab ↗</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- optional action buttons row (keep if you want) -->
+      <div class="ctaRow">
+        <a class="btn primary" id="mapsBtn" href="#" target="_blank" rel="noreferrer">Open in Maps</a>
+        <a class="btn" id="calBtn" href="#">Add to Calendar (.ics)</a>
+        <button class="btn" id="copyBtn" type="button">Copy Invite Text</button>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // ============================
+    // EDIT THESE VALUES ONLY
+    // ============================
+    const DETAILS = {
+      kickerText: "YOU ARE CORDIALLY INVITED TO",
+      titleTop: "Graduation",
+      titleBottom: "Celebration",
+
+      honoreeName: "Alexandra Johnson",
+      degreeText: "Bachelor of Science in Computer Science",
+      schoolText: "Stanford University • Class of 2026",
+
+      dateValue: "Saturday, June 15th, 2026",
+      dateSub: "Mark your calendar",
+      timeValue: "4:00 PM - 9:00 PM",
+      timeSub: "Dinner & dancing to follow",
+      venueValue: "The Grand Pavilion",
+      venueSub: "1234 Celebration Drive, Palo Alto, CA",
+      attireValue: "Semi-Formal",
+      attireSub: "Dinner & dancing to follow",
+
+      rsvpDeadlineText: "Please respond by June 1st, 2026",
+      rsvpLink: "https://example.com/rsvp",
+
+      mapsQuery: "1234 Celebration Drive, Palo Alto, CA",
+
+      // countdown target (viewer local time)
+      eventStartISO: "2026-06-15T16:00:00",
+
+      // calendar duration in hours
+      durationHours: 5
+    };
+
+    const $ = (id) => document.getElementById(id);
+
+    // Fill text
+    $("kickerText").textContent = DETAILS.kickerText;
+    $("titleTop").textContent = DETAILS.titleTop;
+    $("titleBottom").textContent = DETAILS.titleBottom;
+
+    $("honoreeName").textContent = DETAILS.honoreeName;
+    $("degreeText").textContent = DETAILS.degreeText;
+    $("schoolText").textContent = DETAILS.schoolText;
+
+    $("dateValue").textContent = DETAILS.dateValue;
+    $("dateSub").textContent = DETAILS.dateSub;
+    $("timeValue").textContent = DETAILS.timeValue;
+    $("timeSub").textContent = DETAILS.timeSub;
+    $("venueValue").textContent = DETAILS.venueValue;
+    $("venueSub").textContent = DETAILS.venueSub;
+    $("attireValue").textContent = DETAILS.attireValue;
+    $("attireSub").textContent = DETAILS.attireSub;
+
+    $("rsvpDeadlineText").textContent = DETAILS.rsvpDeadlineText;
+    $("rsvpSameTabBtn").href = DETAILS.rsvpLink;
+    $("rsvpNewTabBtn").href = DETAILS.rsvpLink;
+
+    const mapsUrl = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(DETAILS.mapsQuery);
+    $("mapsBtn").href = mapsUrl;
+
+    // Reveal invite
+    const invite = $("invite");
+    $("openBtn").addEventListener("click", () => {
+      invite.classList.remove("hidden");
+      invite.classList.add("fadeIn");
+      invite.scrollIntoView({ behavior: "smooth", block: "start" });
+      confettiBurst(1400);
+      confettiEnabled = true;
+    });
+
+    // Copy invite text
+    const inviteText = () =>
+`YOU ARE CORDIALLY INVITED TO
+${DETAILS.titleTop.toUpperCase()} ${DETAILS.titleBottom.toUpperCase()}
+
+HONORING: ${DETAILS.honoreeName}
+${DETAILS.degreeText}
+${DETAILS.schoolText}
+
+DATE: ${DETAILS.dateValue}
+TIME: ${DETAILS.timeValue}
+VENUE: ${DETAILS.venueValue} — ${DETAILS.venueSub}
+ATTIRE: ${DETAILS.attireValue}
+
+RSVP: ${DETAILS.rsvpLink}
+MAPS: ${mapsUrl}`;
+
+    $("copyBtn").addEventListener("click", async () => {
+      try{
+        await navigator.clipboard.writeText(inviteText());
+        const old = $("copyBtn").textContent;
+        $("copyBtn").textContent = "Copied!";
+        setTimeout(()=> $("copyBtn").textContent = old, 1200);
+      }catch{
+        alert(inviteText());
+      }
+    });
+
+    // Calendar (.ics)
+    function downloadIcs(){
+      const pad = (n)=> String(n).padStart(2,"0");
+      const start = new Date(DETAILS.eventStartISO);
+      const end = new Date(start.getTime() + DETAILS.durationHours * 60 * 60 * 1000);
+
+      const fmtLocal = (d)=>{
+        const y=d.getFullYear(), m=pad(d.getMonth()+1), da=pad(d.getDate());
+        const h=pad(d.getHours()), mi=pad(d.getMinutes());
+        return `${y}${m}${da}T${h}${mi}00`;
+      };
+
+      const ics =
+`BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Graduation Invite//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:${crypto.randomUUID()}@invite
+DTSTAMP:${new Date().toISOString().replace(/[-:]/g,"").replace(/\.\d+Z$/, "Z")}
+DTSTART:${fmtLocal(start)}
+DTEND:${fmtLocal(end)}
+SUMMARY:${DETAILS.titleTop} ${DETAILS.titleBottom} - ${DETAILS.honoreeName}
+LOCATION:${DETAILS.venueValue}, ${DETAILS.venueSub}
+DESCRIPTION:RSVP: ${DETAILS.rsvpLink}\\nMaps: ${mapsUrl}
+END:VEVENT
+END:VCALENDAR`;
+
+      const blob = new Blob([ics], {type:"text/calendar;charset=utf-8"});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "graduation-invitation.ics";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }
+    $("calBtn").addEventListener("click", (e)=>{ e.preventDefault(); downloadIcs(); });
+
+    // Countdown
+    const target = new Date(DETAILS.eventStartISO);
+    function tick(){
+      const diff = target - new Date();
+      if (diff <= 0){
+        $("dd").textContent = $("hh").textContent = $("mm").textContent = $("ss").textContent = "00";
+        return;
+      }
+      const totalSeconds = Math.floor(diff/1000);
+      const days = Math.floor(totalSeconds/86400);
+      const hours = Math.floor((totalSeconds%86400)/3600);
+      const mins = Math.floor((totalSeconds%3600)/60);
+      const secs = totalSeconds%60;
+      const p2 = (n)=> String(n).padStart(2,"0");
+      $("dd").textContent = p2(days);
+      $("hh").textContent = p2(hours);
+      $("mm").textContent = p2(mins);
+      $("ss").textContent = p2(secs);
+    }
+    tick(); setInterval(tick, 1000);
+
+    // Mouse-follow glow for cards (Event Details + RSVP card)
+    document.querySelectorAll(".card").forEach((el) => {
+      el.addEventListener("mousemove", (e) => {
+        const r = el.getBoundingClientRect();
+        const x = ((e.clientX - r.left) / r.width) * 100;
+        const y = ((e.clientY - r.top) / r.height) * 100;
+        el.style.setProperty("--mx", x.toFixed(2) + "%");
+        el.style.setProperty("--my", y.toFixed(2) + "%");
+      });
+    });
+
+    // ============================
+    // STARFIELD + CONSTELLATIONS
+    // ============================
+    const starCanvas = document.getElementById("stars");
+    const sctx = starCanvas.getContext("2d");
+
+    function resizeCanvas(c, ctx){
+      const dpr = Math.min(2, window.devicePixelRatio || 1);
+      c.width = Math.floor(innerWidth * dpr);
+      c.height = Math.floor(innerHeight * dpr);
+      c.style.width = innerWidth + "px";
+      c.style.height = innerHeight + "px";
+      ctx.setTransform(dpr,0,0,dpr,0,0);
+      return dpr;
+    }
+
+    let stars = [];
+    function initStars(){
+      resizeCanvas(starCanvas, sctx);
+      const count = Math.max(90, Math.floor((innerWidth * innerHeight) / 14000));
+      stars = Array.from({length: count}, () => ({
+        x: Math.random()*innerWidth,
+        y: Math.random()*innerHeight,
+        r: Math.random()*1.6 + 0.2,
+        a: Math.random()*0.8 + 0.15,
+        tw: Math.random()*0.6 + 0.2,
+        vx: (Math.random() - 0.5) * 0.03,
+        vy: (Math.random() - 0.5) * 0.03,
+        tint: Math.random() < 0.06 ? "blue" : (Math.random() < 0.03 ? "red" : "white")
+      }));
+    }
+
+    function drawStars(t){
+      sctx.clearRect(0,0,innerWidth,innerHeight);
+
+      // tiny vignette
+      const g = sctx.createRadialGradient(innerWidth/2, innerHeight/2, 40, innerWidth/2, innerHeight/2, Math.max(innerWidth, innerHeight)*0.8);
+      g.addColorStop(0, "rgba(0,0,0,0)");
+      g.addColorStop(1, "rgba(0,0,0,0.55)");
+      sctx.fillStyle = g;
+      sctx.fillRect(0,0,innerWidth,innerHeight);
+
+      for(const st of stars){
+        st.x += st.vx;
+        st.y += st.vy;
+        if(st.x<0) st.x=innerWidth; if(st.x>innerWidth) st.x=0;
+        if(st.y<0) st.y=innerHeight; if(st.y>innerHeight) st.y=0;
+
+        const tw = 0.55 + 0.45*Math.sin((t/1000)*st.tw + st.x*0.02);
+        const alpha = st.a * tw;
+
+        let color = `rgba(255,255,255,${alpha})`;
+        if(st.tint==="blue") color = `rgba(30,107,255,${alpha})`;
+        if(st.tint==="red") color = `rgba(255,80,120,${alpha})`;
+
+        sctx.beginPath();
+        sctx.fillStyle = color;
+        sctx.arc(st.x, st.y, st.r, 0, Math.PI*2);
+        sctx.fill();
+      }
+
+      // constellation lines
+      sctx.lineWidth = 1;
+      for(let i=0;i<stars.length;i++){
+        for(let j=i+1;j<stars.length;j++){
+          const a = stars[i], b = stars[j];
+          const dx = a.x-b.x, dy = a.y-b.y;
+          const d = Math.hypot(dx,dy);
+          if(d < 140){
+            const alpha = (1 - d/140) * 0.12;
+            sctx.strokeStyle = `rgba(199,210,254,${alpha})`;
+            sctx.beginPath();
+            sctx.moveTo(a.x,a.y);
+            sctx.lineTo(b.x,b.y);
+            sctx.stroke();
+          }
+        }
+      }
+
+      requestAnimationFrame(drawStars);
+    }
+
+    // ============================
+    // CONFETTI
+    // ============================
+    const confCanvas = document.getElementById("confetti");
+    const cctx = confCanvas.getContext("2d");
+    let confettiEnabled = false;
+    let burstUntil = 0;
+    let pieces = [];
+    const confColors = ["#1e6bff", "#e11d48", "#ffffff", "#60a5fa"];
+
+    function initConfetti(){
+      resizeCanvas(confCanvas, cctx);
+      pieces = Array.from({length: 150}, () => mkPiece(true));
+    }
+
+    function mkPiece(startAbove){
+      return {
+        x: Math.random()*innerWidth,
+        y: startAbove ? (Math.random()*innerHeight - innerHeight) : (Math.random()*innerHeight),
+        w: 5 + Math.random()*10,
+        h: 7 + Math.random()*16,
+        s: 0.65 + Math.random()*1.6,
+        a: Math.random()*Math.PI*2,
+        va: (-0.05 + Math.random()*0.10),
+        c: confColors[(Math.random()*confColors.length)|0],
+        t: Math.random()*2
+      };
+    }
+
+    function confettiBurst(ms){
+      burstUntil = performance.now() + ms;
+    }
+
+    function drawConfetti(){
+      cctx.clearRect(0,0,innerWidth,innerHeight);
+
+      if(!confettiEnabled && performance.now() > burstUntil){
+        requestAnimationFrame(drawConfetti);
+        return;
+      }
+
+      const boosted = performance.now() < burstUntil;
+
+      for(const p of pieces){
+        const sp = p.s * (boosted ? 2.4 : 1.0);
+        p.y += sp;
+        p.x += Math.sin((p.y*0.01) + p.t) * (boosted ? 1.4 : 0.7);
+        p.a += p.va * (boosted ? 1.9 : 1.0);
+
+        if(p.y > innerHeight + 30){
+          Object.assign(p, mkPiece(true));
+          p.y = -30;
+        }
+
+        cctx.save();
+        cctx.translate(p.x, p.y);
+        cctx.rotate(p.a);
+        cctx.fillStyle = p.c;
+        cctx.globalAlpha = boosted ? 0.95 : 0.75;
+        cctx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
+        cctx.restore();
+      }
+
+      requestAnimationFrame(drawConfetti);
+    }
+
+    function onResize(){
+      initStars();
+      initConfetti();
+    }
+    window.addEventListener("resize", onResize);
+
+    // Start animations
+    initStars();
+    initConfetti();
+    requestAnimationFrame(drawStars);
+    requestAnimationFrame(drawConfetti);
+
+    // Respect reduced motion: keep confetti off until click
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches){
+      confettiEnabled = false;
+    }
+  </script>
+</body>
+</html>
