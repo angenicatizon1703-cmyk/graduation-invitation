@@ -658,8 +658,8 @@
    // #$("rsvpSameTabBtn").href = DETAILS.rsvpLink;
     //#$("rsvpNewTabBtn").href = DETAILS.rsvpLink;
 
-    const mapsUrl = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(DETAILS.mapsQuery);
-    $("mapsBtn").href = mapsUrl;
+    //const mapsUrl = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(DETAILS.mapsQuery);
+    //$("mapsBtn").href = mapsUrl;
 
     // Reveal invite
     const invite = $("invite");
@@ -688,11 +688,11 @@ ATTIRE: ${DETAILS.attireValue}
 RSVP: ${DETAILS.rsvpLink}
 MAPS: ${mapsUrl}`;
 
-    $("copyBtn").addEventListener("click", async () => {
+  //  $("copyBtn").addEventListener("click", async () => {
       try{
         await navigator.clipboard.writeText(inviteText());
         const old = $("copyBtn").textContent;
-        $("copyBtn").textContent = "Copied!";
+       // $("copyBtn").textContent = "Copied!";
         setTimeout(()=> $("copyBtn").textContent = old, 1200);
       }catch{
         alert(inviteText());
@@ -738,7 +738,7 @@ END:VCALENDAR`;
       a.remove();
       URL.revokeObjectURL(url);
     }
-    $("calBtn").addEventListener("click", (e)=>{ e.preventDefault(); downloadIcs(); });
+ //   $("calBtn").addEventListener("click", (e)=>{ e.preventDefault(); downloadIcs(); });
 
     // Countdown
     const target = new Date(DETAILS.eventStartISO);
