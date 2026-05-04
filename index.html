@@ -590,7 +590,8 @@
       <div class="rsvpCard">
         <div class="card rsvpInner">
           <h5 class="rsvpTitle">RSVP</h5>
-          
+          <p class="rsvpLead" id="rsvpDeadlineText">Please respond by June 1st, 2026</p>
+
           <p class="rsvpBody">
             Let us know if you can make it to the celebration! Click below to fill out the RSVP form.
           </p>
@@ -600,6 +601,13 @@
             <a class="btn" id="rsvpNewTabBtn" href="#" target="_blank" rel="noreferrer">Open in New Tab ↗</a>
           </div>
         </div>
+      </div>
+
+      <!-- optional action buttons row (keep if you want) -->
+      <div class="ctaRow">
+        <a class="btn primary" id="mapsBtn" href="#" target="_blank" rel="noreferrer">Open in Maps</a>
+        <a class="btn" id="calBtn" href="#">Add to Calendar (.ics)</a>
+        <button class="btn" id="copyBtn" type="button">Copy Invite Text</button>
       </div>
     </section>
   </main>
@@ -626,8 +634,16 @@
       attireValue: "Any Attire",
       attireSub: "Dinner Attire",
 
-      rsvpLink: "https://example.com/rsvp"
+      rsvpDeadlineText: "Please respond by June 1st, 2026",
+      rsvpLink: "https://example.com/rsvp",
 
+      mapsQuery: "1234 Celebration Drive, Palo Alto, CA",
+
+      // countdown target (viewer local time)
+      eventStartISO: "2026-06-15T16:00:00",
+
+      // calendar duration in hours
+      durationHours: 5
     };
 
     const $ = (id) => document.getElementById(id);
@@ -653,7 +669,9 @@
     $("rsvpDeadlineText").textContent = DETAILS.rsvpDeadlineText;
     $("rsvpSameTabBtn").href = DETAILS.rsvpLink;
     $("rsvpNewTabBtn").href = DETAILS.rsvpLink;
-   
+
+    const mapsUrl = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(DETAILS.mapsQuery);
+    $("mapsBtn").href = mapsUrl;
 
     // Reveal invite
     const invite = $("invite");
