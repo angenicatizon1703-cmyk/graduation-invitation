@@ -392,45 +392,6 @@
       line-height: 1.4;
     }
 
-    /* buttons */
-    .ctaRow{
-      max-width: 980px;
-      margin: 18px auto 0;
-      display:flex;
-      flex-wrap:wrap;
-      gap: 10px;
-      justify-content:center;
-      padding: 0 6px;
-    }
-    a.btn, button.btn{
-      appearance:none;
-      border-radius: 999px;
-      padding: 12px 18px;
-      border: 1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.05);
-      color: rgba(255,255,255,.92);
-      font-weight: 850;
-      letter-spacing:.01em;
-      cursor:pointer;
-      text-decoration:none;
-      transition: transform .15s ease, box-shadow .2s ease, background .2s ease;
-    }
-    a.btn:hover, button.btn:hover{
-      transform: translateY(-1px);
-      background: rgba(255,255,255,.08);
-      box-shadow: 0 0 0 10px rgba(30,107,255,.12);
-    }
-    .btn.primary{
-      border-color: rgba(30,107,255,.55);
-      background: rgba(30,107,255,.12);
-      color: rgba(30,107,255,.98);
-    }
-    .btn.primary:hover{
-      background: rgba(30,107,255,.92);
-      color: #071022;
-      box-shadow: 0 0 0 12px rgba(30,107,255,.16), 0 0 70px rgba(30,107,255,.22);
-    }
-
     /* RSVP block */
     .rsvpCard{
       max-width: 980px;
@@ -447,28 +408,8 @@
       font-weight: 900;
       letter-spacing:-.02em;
       font-size: clamp(30px, 3.6vw, 44px);
-      margin: 0;
+      margin: 0 0 24px;
       color: rgba(255,255,255,.95);
-    }
-    .rsvpLead{
-      margin: 12px 0 0;
-      color: rgba(199,210,254,.70);
-      font-family: var(--serif);
-      font-size: 18px;
-    }
-    .rsvpBody{
-      margin: 22px auto 0;
-      max-width: 720px;
-      color: rgba(199,210,254,.62);
-      font-size: 16px;
-      line-height: 1.55;
-    }
-    .rsvpBtns{
-      margin-top: 18px;
-      display:flex;
-      gap: 12px;
-      justify-content:center;
-      flex-wrap:wrap;
     }
 
     /* Reduced motion */
@@ -493,7 +434,7 @@
         <circle cx="21" cy="18" r="1" fill="currentColor"></circle>
       </svg>
 
-      <h1 class="heroTitle">You’re Invited</h1>
+      <h1 class="heroTitle">You're Invited</h1>
       <p class="heroSub">A celebration awaits...</p>
 
       <button class="openBtn" id="openBtn" type="button">Open Invitation</button>
@@ -561,15 +502,15 @@
               <circle cx="12" cy="10" r="2.5"></circle>
             </svg>
           </div>
-          
-         <div class="meta">
-          <a href="https://www.google.com/maps?q=25.259029388427734,51.51462936401367&z=17&hl=en" target="_blank" style="text-decoration:none; color:inherit;">
-            <div class="k">Venue</div>
-            <div class="v" id="venueValue">Villa 7</div>
-            <p class="s" id="venueSub">Near Al Arabi</p>
-          </a>
+          <div class="meta">
+            <a href="https://www.google.com/maps?q=25.259029388427734,51.51462936401367&z=17&hl=en" target="_blank" style="text-decoration:none; color:inherit;">
+              <div class="k">Venue</div>
+              <div class="v" id="venueValue">Villa 7</div>
+              <p class="s" id="venueSub">Near Al Arabi</p>
+            </a>
+          </div>
         </div>
-        
+
         <div class="card">
           <div class="iconWrap" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -591,12 +532,9 @@
       <div class="rsvpCard">
         <div class="card rsvpInner">
           <h5 class="rsvpTitle">RSVP</h5>
-          <iframe src="https://surveyheart.com/form/69f928370ade6f5ad21e4997" width="100%" height="600" frameborder="0" style="border:none;">Loading...
-          </iframe>
+          <iframe src="https://surveyheart.com/form/69f928370ade6f5ad21e4997" width="100%" height="600" frameborder="0" style="border:none;">Loading...</iframe>
         </div>
       </div>
-
-    
     </section>
   </main>
 
@@ -622,16 +560,8 @@
       attireValue: "Any Attire",
       attireSub: "Dinner Attire",
 
-      rsvpDeadlineText: "Please respond by June 1st, 2026",
-      rsvpLink: "https://example.com/rsvp",
-
-      mapsQuery: "1234 Celebration Drive, Palo Alto, CA",
-
       // countdown target (viewer local time)
-      eventStartISO: "2026-06-15T16:00:00",
-
-      // calendar duration in hours
-      durationHours: 5
+      eventStartISO: "2026-06-15T16:00:00"
     };
 
     const $ = (id) => document.getElementById(id);
@@ -654,13 +584,6 @@
     $("attireValue").textContent = DETAILS.attireValue;
     $("attireSub").textContent = DETAILS.attireSub;
 
-    //$("rsvpDeadlineText").textContent = DETAILS.rsvpDeadlineText;
-   // #$("rsvpSameTabBtn").href = DETAILS.rsvpLink;
-    //#$("rsvpNewTabBtn").href = DETAILS.rsvpLink;
-
-    //const mapsUrl = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(DETAILS.mapsQuery);
-    //$("mapsBtn").href = mapsUrl;
-
     // Reveal invite
     const invite = $("invite");
     $("openBtn").addEventListener("click", () => {
@@ -670,96 +593,6 @@
       confettiBurst(1400);
       confettiEnabled = true;
     });
-
-    // Copy invite text
-    const inviteText = () =>
-`YOU ARE CORDIALLY INVITED TO
-${DETAILS.titleTop.toUpperCase()} ${DETAILS.titleBottom.toUpperCase()}
-
-HONORING: ${DETAILS.honoreeName}
-${DETAILS.degreeText}
-${DETAILS.schoolText}
-
-DATE: ${DETAILS.dateValue}
-TIME: ${DETAILS.timeValue}
-VENUE: ${DETAILS.venueValue} — ${DETAILS.venueSub}
-ATTIRE: ${DETAILS.attireValue}
-
-RSVP: ${DETAILS.rsvpLink}
-MAPS: ${mapsUrl}`;
-
-  //  $("copyBtn").addEventListener("click", async () => {
-      try{
-        await navigator.clipboard.writeText(inviteText());
-        const old = $("copyBtn").textContent;
-       // $("copyBtn").textContent = "Copied!";
-        setTimeout(()=> $("copyBtn").textContent = old, 1200);
-      }catch{
-        alert(inviteText());
-      }
-    });
-
-    // Calendar (.ics)
-    function downloadIcs(){
-      const pad = (n)=> String(n).padStart(2,"0");
-      const start = new Date(DETAILS.eventStartISO);
-      const end = new Date(start.getTime() + DETAILS.durationHours * 60 * 60 * 1000);
-
-      const fmtLocal = (d)=>{
-        const y=d.getFullYear(), m=pad(d.getMonth()+1), da=pad(d.getDate());
-        const h=pad(d.getHours()), mi=pad(d.getMinutes());
-        return `${y}${m}${da}T${h}${mi}00`;
-      };
-
-      const ics =
-`BEGIN:VCALENDAR
-VERSION:2.0
-PRODID:-//Graduation Invite//EN
-CALSCALE:GREGORIAN
-METHOD:PUBLISH
-BEGIN:VEVENT
-UID:${crypto.randomUUID()}@invite
-DTSTAMP:${new Date().toISOString().replace(/[-:]/g,"").replace(/\.\d+Z$/, "Z")}
-DTSTART:${fmtLocal(start)}
-DTEND:${fmtLocal(end)}
-SUMMARY:${DETAILS.titleTop} ${DETAILS.titleBottom} - ${DETAILS.honoreeName}
-LOCATION:${DETAILS.venueValue}, ${DETAILS.venueSub}
-DESCRIPTION:RSVP: ${DETAILS.rsvpLink}\\nMaps: ${mapsUrl}
-END:VEVENT
-END:VCALENDAR`;
-
-      const blob = new Blob([ics], {type:"text/calendar;charset=utf-8"});
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "graduation-invitation.ics";
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      URL.revokeObjectURL(url);
-    }
- //   $("calBtn").addEventListener("click", (e)=>{ e.preventDefault(); downloadIcs(); });
-
-    // Countdown
-    const target = new Date(DETAILS.eventStartISO);
-    function tick(){
-      const diff = target - new Date();
-      if (diff <= 0){
-        $("dd").textContent = $("hh").textContent = $("mm").textContent = $("ss").textContent = "00";
-        return;
-      }
-      const totalSeconds = Math.floor(diff/1000);
-      const days = Math.floor(totalSeconds/86400);
-      const hours = Math.floor((totalSeconds%86400)/3600);
-      const mins = Math.floor((totalSeconds%3600)/60);
-      const secs = totalSeconds%60;
-      const p2 = (n)=> String(n).padStart(2,"0");
-      $("dd").textContent = p2(days);
-      $("hh").textContent = p2(hours);
-      $("mm").textContent = p2(mins);
-      $("ss").textContent = p2(secs);
-    }
-    tick(); setInterval(tick, 1000);
 
     // Mouse-follow glow for cards (Event Details + RSVP card)
     document.querySelectorAll(".card").forEach((el) => {
